@@ -1,0 +1,834 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: youtube文章生成
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.6@dd589dc093c8084925858034ab5ec1fdf0d33819f43226c2f8c4a749a9acbbb2
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1752132727721-source-1752143602102-target
+      selected: false
+      source: '1752132727721'
+      sourceHandle: source
+      target: '1752143602102'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1752143602102-source-1752202558396-target
+      selected: false
+      source: '1752143602102'
+      sourceHandle: source
+      target: '1752202558396'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: template-transform
+      id: 1752202558396-source-1752209765464-target
+      source: '1752202558396'
+      sourceHandle: source
+      target: '1752209765464'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: llm
+      id: 1752209765464-source-1752209794058-target
+      source: '1752209765464'
+      sourceHandle: source
+      target: '1752209794058'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1752209794058-source-1752134638647-target
+      source: '1752209794058'
+      sourceHandle: source
+      target: '1752134638647'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1752130841648-source-1752132727721-target
+      source: '1752130841648'
+      sourceHandle: source
+      target: '1752132727721'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 字幕文本
+          max_length: 10000000
+          options: []
+          required: true
+          type: paragraph
+          variable: text
+        - label: language
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: language
+        - label: secret_key
+          max_length: 200
+          options: []
+          required: true
+          type: text-input
+          variable: secret_key
+        - label: access_key
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: access_key
+        - label: 图片风格
+          max_length: 2000
+          options: []
+          required: false
+          type: paragraph
+          variable: picturestyle
+      height: 194
+      id: '1752130841648'
+      position:
+        x: 31.961403266738444
+        y: 284
+      positionAbsolute:
+        x: 31.961403266738444
+        y: 284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 7780afb4-94a3-4220-8c07-8fe514fe8df0
+          role: system
+          text: '## 角色定位
+
+
+            您是一位专业的电商内容专家，擅长将原始素材转化为高质量、结构化的专业文章，专为电商卖家服务。
+
+
+            ## 核心任务
+
+
+            基于用户提供的原始内容文本，创作一篇针对电商卖家的深度专业文章，要求内容准确、结构清晰、具备深度洞察和高度实用性。
+
+
+            ## 内容处理原则
+
+
+            ### 忠实改写与适配性
+
+            严格基于原始内容：完全依据提供的原始素材进行重组和优化。
+
+            信息完整性：不添加原始内容中不存在的信息、案例或数据。
+
+            观点准确性：不夸大、不修饰原始内容的核心观点。
+
+            数据精确性：保持所有数字、比例、时间等数据的准确性。
+
+            若原始内容过短或空缺，则无需强行扩写。
+
+            ### 专业转化
+
+            语言风格：将口语化、随意的表达转化为专业书面语。
+
+            内容精炼：去除语气词、重复内容和无关的过渡性语句。
+
+            逻辑优化：按照逻辑关系重新组织零散内容，合并相似观点。
+
+
+            ## 文章撰写要求
+
+
+            ### 结构组织
+
+            逻辑重组：将零散信息按主题和重要性重新排列。
+
+            内容合并：整合相似观点，避免重复表达。
+
+            层次清晰：建立清晰的信息层级结构。
+
+            ### 实用技巧
+
+            仅当原始内容包含明确操作方法时，提炼生成**“实用技巧”板块**，所有技巧描述必须基于原始内容，并提供具体的实施要点和注意事项。
+
+            ### 价值体现
+
+            强调内容对电商卖家的实际应用价值。
+
+            明确每个观点在电商领域的应用场景和适用条件。
+
+            提供清晰的可操作性行动指南和实施步骤。
+
+
+            ## 输出格式要求
+
+
+            ### 内容结构
+
+            标题：包含SEO关键词的引人入胜标题。
+
+            篇幅：500-3000字的深度内容（根据原始内容丰富度调整）。
+
+            段落：段落逻辑清晰。
+
+            结构：可以参考类似“引言-主体-实用建议-总结”结构。
+
+            ### 视觉呈现规范
+
+            数据展示：使用 <table> 展示对比数据和关键指标。
+
+            要点列举：用 <ul> 或 <ol> 列出关键要点和步骤。
+
+            重点强调：用 <blockquote> 突出核心观点和重要提醒。
+
+            ### 排版优化： 确保视觉元素合理分布，提升阅读效率和体验。
+
+            ### 质量标准
+
+            专业性：使用电商行业术语和专业表达。
+
+            实用性：提供可直接应用的方法和建议。
+
+            可读性：结构清晰，层次分明，便于快速阅读和理解。
+
+
+            ## 执行指令
+
+
+            请按照以上要求处理用户提供的原始内容，输出一篇符合电商卖家需求的专业文章。输出的文章以{{#1752130841648.language#}}语种输出。
+
+            注意：严格遵循"忠实改写"原则，确保所有内容都有原始素材支撑，不进行任何无根据的扩展或修饰。'
+        - id: 73d8625d-0ab5-4125-bd63-67d5672a01a7
+          role: user
+          text: '<text>
+
+            {{#1752130841648.text#}}
+
+            </text>'
+        selected: false
+        title: 文章改写
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1752132727721'
+      position:
+        x: 638
+        y: 284
+      positionAbsolute:
+        x: 638
+        y: 284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1752209794058'
+          - text
+          value_type: string
+          variable: text
+        selected: false
+        title: 带图片的文章
+        type: end
+      height: 90
+      id: '1752134638647'
+      position:
+        x: 2158
+        y: 284
+      positionAbsolute:
+        x: 2158
+        y: 284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 6463d62f-efe2-4b61-983d-90843d44e7cb
+          role: system
+          text: '## 任务
+
+            任务1:提取文章核心主题或场景，结合用户要求的picture style整合，最多提取3个场景用于调用即梦生成图。场景的描述需要跟原文契合，描述的内容便于即梦理解生成图片。
+
+            任务2:结合提取的场景和文章内容生成调用即梦AI的提示词。提示词的描述 使用专业的短词语形容风格、镜头语言等美学描述；使用自然语言完整连贯的描述你画面的主体描述(主体+行为+环境)；当输入的提示词较多时，可以把要重点突出的内容放置在最前面。
+
+            ## 输出
+
+            输出生成的提示词，并说明最多生成3张图。生成图片时插入网页文章中的。尺寸需要适中。
+
+            '
+        - id: 084be711-3937-4a87-80a5-baf766e59c98
+          role: user
+          text: '用户要求的picture style：{{#1752130841648.picturestyle#}}
+
+            文章：{{#1752132727721.text#}}'
+        selected: false
+        title: 生成即梦提示词
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1752143602102'
+      position:
+        x: 942
+        y: 284
+      positionAbsolute:
+        x: 942
+        y: 284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\nimport datetime\nimport hashlib\nimport hmac\nimport urllib.request\n\
+          import urllib.parse\nimport urllib.error\nimport ssl\n\n\ndef sign(key,\
+          \ msg):\n    return hmac.new(key, msg.encode('utf-8'), hashlib.sha256).digest()\n\
+          \n\ndef getSignatureKey(key, dateStamp, regionName, serviceName):\n    kDate\
+          \ = sign(key.encode('utf-8'), dateStamp)\n    kRegion = sign(kDate, regionName)\n\
+          \    kService = sign(kRegion, serviceName)\n    kSigning = sign(kService,\
+          \ 'request')\n    return kSigning\n\n\ndef formatQuery(parameters):\n  \
+          \  return '&'.join(f\"{k}={v}\" for k, v in sorted(parameters.items()))\n\
+          \n\ndef signV4Request(access_key, secret_key, service, req_query, req_body):\n\
+          \    method = 'POST'\n    host = 'visual.volcengineapi.com'\n    region\
+          \ = 'cn-north-1'\n    endpoint = 'https://visual.volcengineapi.com'\n  \
+          \  \n    if not access_key or not secret_key:\n        raise ValueError('access_key\
+          \ 和 secret_key 不能为空')\n\n    t = datetime.datetime.utcnow()\n    current_date\
+          \ = t.strftime('%Y%m%dT%H%M%SZ')\n    datestamp = t.strftime('%Y%m%d')\n\
+          \    canonical_uri = '/'\n    canonical_querystring = req_query\n    signed_headers\
+          \ = 'content-type;host;x-content-sha256;x-date'\n    payload_hash = hashlib.sha256(req_body.encode('utf-8')).hexdigest()\n\
+          \    content_type = 'application/json'\n    \n    canonical_headers = (\n\
+          \        f'content-type:{content_type}\\n'\n        f'host:{host}\\n'\n\
+          \        f'x-content-sha256:{payload_hash}\\n'\n        f'x-date:{current_date}\\\
+          n'\n    )\n    \n    canonical_request = (\n        f'{method}\\n{canonical_uri}\\\
+          n{canonical_querystring}\\n'\n        f'{canonical_headers}\\n{signed_headers}\\\
+          n{payload_hash}'\n    )\n    \n    algorithm = 'HMAC-SHA256'\n    credential_scope\
+          \ = f'{datestamp}/{region}/{service}/request'\n    string_to_sign = (\n\
+          \        f'{algorithm}\\n{current_date}\\n{credential_scope}\\n'\n     \
+          \   f'{hashlib.sha256(canonical_request.encode(\"utf-8\")).hexdigest()}'\n\
+          \    )\n    \n    signing_key = getSignatureKey(secret_key, datestamp, region,\
+          \ service)\n    signature = hmac.new(signing_key, string_to_sign.encode('utf-8'),\
+          \ hashlib.sha256).hexdigest()\n\n    authorization_header = (\n        f'{algorithm}\
+          \ Credential={access_key}/{credential_scope}, '\n        f'SignedHeaders={signed_headers},\
+          \ Signature={signature}'\n    )\n    \n    headers = {\n        'X-Date':\
+          \ current_date,\n        'Authorization': authorization_header,\n      \
+          \  'X-Content-Sha256': payload_hash,\n        'Content-Type': content_type\n\
+          \    }\n\n    request_url = f'{endpoint}?{canonical_querystring}'\n    \n\
+          \    try:\n        ssl_context = ssl.create_default_context()\n        ssl_context.check_hostname\
+          \ = False\n        ssl_context.verify_mode = ssl.CERT_NONE\n        \n \
+          \       req = urllib.request.Request(request_url, data=req_body.encode('utf-8'),\
+          \ headers=headers, method='POST')\n        with urllib.request.urlopen(req,\
+          \ context=ssl_context) as response:\n            response_data = response.read().decode('utf-8')\n\
+          \            status_code = response.getcode()\n            \n        resp_str\
+          \ = response_data.replace(\"\\\\u0026\", \"&\")\n        \n        return\
+          \ {\n            'status_code': status_code,\n            'response_body':\
+          \ resp_str,\n            'request_url': request_url\n        }\n       \
+          \ \n    except urllib.error.URLError as err:\n        raise Exception(f'请求发生错误:\
+          \ {err}')\n\n\ndef extract_image_data(response_data):\n    \"\"\"根据实际返回字段提取图片数据\"\
+          \"\"\n    try:\n        # 1. 优先检查 image_urls (最可能是图片URL数组)\n        if 'image_urls'\
+          \ in response_data and response_data['image_urls']:\n            image_urls\
+          \ = response_data['image_urls']\n            if isinstance(image_urls, list)\
+          \ and image_urls:\n                return image_urls[0]\n            elif\
+          \ isinstance(image_urls, str):\n                return image_urls\n    \
+          \    \n        # 2. 检查 binary_data_base64 (base64图片数据)\n        if 'binary_data_base64'\
+          \ in response_data and response_data['binary_data_base64']:\n          \
+          \  binary_data = response_data['binary_data_base64']\n            if isinstance(binary_data,\
+          \ list) and binary_data:\n                return binary_data[0]\n      \
+          \      elif isinstance(binary_data, str):\n                return binary_data\n\
+          \        \n        # 3. 检查 data 字段里的内容\n        if 'data' in response_data\
+          \ and response_data['data']:\n            data = response_data['data']\n\
+          \            if isinstance(data, dict):\n                # 检查 data 里的 image_urls\n\
+          \                if 'image_urls' in data and data['image_urls']:\n     \
+          \               image_urls = data['image_urls']\n                    if\
+          \ isinstance(image_urls, list) and image_urls:\n                       \
+          \ return image_urls[0]\n                    elif isinstance(image_urls,\
+          \ str):\n                        return image_urls\n                \n \
+          \               # 检查 data 里的 binary_data_base64\n                if 'binary_data_base64'\
+          \ in data and data['binary_data_base64']:\n                    binary_data\
+          \ = data['binary_data_base64']\n                    if isinstance(binary_data,\
+          \ list) and binary_data:\n                        return binary_data[0]\n\
+          \                    elif isinstance(binary_data, str):\n              \
+          \          return binary_data\n                \n                # 检查 data\
+          \ 里的其他可能字段\n                for key in ['image_url', 'url', 'image', 'img_url']:\n\
+          \                    if key in data and data[key]:\n                   \
+          \     return data[key]\n        \n        # 4. 检查其他顶层字段\n        for key\
+          \ in ['image_url', 'url', 'image', 'img_url']:\n            if key in response_data\
+          \ and response_data[key]:\n                return response_data[key]\n \
+          \               \n    except Exception:\n        pass\n    \n    return\
+          \ \"\"\n\n\ndef main(access_key: str, secret_key: str, prompt: str) -> dict:\n\
+          \    \"\"\"调用火山引擎视觉API生成图片\"\"\"\n    service = 'cv'\n    \n    query_params\
+          \ = {\n        'Action': 'CVProcess',\n        'Version': '2022-08-31',\n\
+          \    }\n    formatted_query = formatQuery(query_params)\n\n    body_params\
+          \ = {\n        \"req_key\": \"jimeng_high_aes_general_v21_L\",\n       \
+          \ \"prompt\": prompt,\n        \"model_version\": \"general_v2.1_L\",\n\
+          \        \"return_url\": True,\n        \"logo_info\": {\n            \"\
+          add_logo\": False,\n            \"position\": 0,\n            \"language\"\
+          : 0,\n            \"opacity\": 0.3\n        },\n        \"use_sr\": False,\n\
+          \        \"sr_seed\": -1,\n        \"width\": 1024,\n        \"height\"\
+          : 1024,\n        \"scale\": 7.5,\n        \"ddim_steps\": 20,\n        \"\
+          seed\": -1,\n        \"binary_data_base64\": []\n    }\n    formatted_body\
+          \ = json.dumps(body_params)\n    \n    try:\n        result = signV4Request(access_key,\
+          \ secret_key, service, formatted_query, formatted_body)\n        response_data\
+          \ = json.loads(result['response_body'])\n        \n        # 提取图片数据\n  \
+          \      image_data = extract_image_data(response_data)\n        \n      \
+          \  # 判断是否成功\n        success = bool(image_data) and result['status_code']\
+          \ == 200\n        \n        return {\n            \"result\": [\n      \
+          \          {\n                    \"image_url\": image_data,\n         \
+          \           \"success\": success,\n                    \"status_code\":\
+          \ result['status_code'],\n                    \"message\": \"图片生成成功\" if\
+          \ success else \"未找到图片数据\"\n                }\n            ]\n        }\n\
+          \        \n    except Exception as e:\n        return {\n            \"\
+          result\": [\n                {\n                    \"image_url\": \"\"\
+          ,\n                    \"success\": False,\n                    \"status_code\"\
+          : 0,\n                    \"message\": f\"API调用失败: {str(e)}\"\n        \
+          \        }\n            ]\n        }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 代码请求即梦生成图片
+        type: code
+        variables:
+        - value_selector:
+          - '1752130841648'
+          - access_key
+          value_type: string
+          variable: access_key
+        - value_selector:
+          - '1752130841648'
+          - secret_key
+          value_type: string
+          variable: secret_key
+        - value_selector:
+          - '1752143602102'
+          - text
+          value_type: string
+          variable: prompt
+      height: 54
+      id: '1752202558396'
+      position:
+        x: 1246
+        y: 284
+      positionAbsolute:
+        x: 1246
+        y: 284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        template: '{{ arg1 }}'
+        title: 转成String放便提取信息
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1752202558396'
+          - result
+          value_type: array[object]
+          variable: arg1
+      height: 54
+      id: '1752209765464'
+      position:
+        x: 1550
+        y: 284
+      positionAbsolute:
+        x: 1550
+        y: 284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 5a6649c0-97e6-409b-a6e9-7722eb878434
+          role: system
+          text: '## 任务：图文结合文章生成
+
+
+            ## 核心目标： 基于提供的文章内容和图片 URL 列表，生成一篇图文结合的专业文章。
+
+
+            ## 具体步骤：
+
+
+            1. 图片解析与筛选
+
+            - 图片理解与提取： 请接收并理解用户提供的多张图片 URL。
+
+            - 内容契合度评估： 结合图片内容，评估其与文章主题和段落的契合度。
+
+            - 如果图片与文章主题或临近段落内容高度不符或相关性极低，则可以选择弃用该图片。
+
+            - 如果所有图片均不适合插入文章，则最终文章可以不包含任何图片，可直接输出文章。
+
+
+            2. 图片整合与排版要求
+
+
+            - 在生成图文结合文章时，请严格遵守以下准则，以确保图文内容高度契合且视觉呈现良好：
+
+            图片插入原则：
+
+            -- 内容相关性： 每张图片插入的位置必须与紧邻的段落内容高度相关，图片应作为该段落的视觉补充或具象化呈现。
+
+            -- 逻辑衔接： 图片应自然地融入文章叙述流，不突兀，不打断读者的阅读体验。
+
+            优先关键信息： 优先为文章中的核心观点、关键步骤或重要案例段落选择合适的图片位置。
+
+            -- 图片数量限制：
+
+            整篇文章中插入的图片总数最多为 3 张。请根据文章长度和内容的视觉需求，合理分配图片数量（可以少于 3 张）。
+
+            -- 图片占位符格式：
+
+            在您认为最适合插入图片的位置（通常是一个段落结束后），请使用以下特定的图片占位符来标记，并确保占位符内的图片描述与图片内容及周边文本相符。
+
+            -- 格式： [图片URL: {{图片实际URL}}; 图片描述: 此处简要描述图片内容，不超过20字}]
+
+
+            示例：
+
+            ‘’‘
+
+            电商卖家在进行市场分析时，应充分利用大数据工具，识别潜在商机和用户需求。精准的市场洞察是制定有效营销策略的基础。
+
+            [图片URL: {{https://example.com/image1.jpg}}; 图片描述: 数据分析图表，显示市场趋势]
+
+
+            此外，优化商品详情页是提升转化率的关键一环。高质量的商品图片和详尽的描述能显著提高买家信任度。
+
+            [图片URL: {{https://example.com/image2.jpg}}; 图片描述: 精致的电商产品展示图]
+
+            ’‘’
+
+
+            ## 输出要求
+
+
+            - 文章完整性： 保持原文章内容的完整性，无需对原文进行任何调整或改写，仅需在合适的位置插入图片。
+
+            - 最终输出： 直接输出图文结合的完整文章。如果图片不可用，则输出文章即可'
+        - id: 10d7f24d-d622-49e4-be1e-ec3641156b4a
+          role: user
+          text: '1.提取图片列表：从{{#1752209765464.output#}}中提取图片URL，如果有多个就提取多个图片URL；
+
+            2.文章内容：{{#1752132727721.text#}}'
+        selected: false
+        title: 图片和文章组合
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1752209794058'
+      position:
+        x: 1854
+        y: 284
+      positionAbsolute:
+        x: 1854
+        y: 284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        author: Dify
+        desc: ''
+        height: 122
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"入参：","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"1.Text：字幕文本，要选择段落型","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"2.language：生成文章的语种","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"3.secret_key：调用即梦生成图片需要","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"3.picturestyle：配图要求","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"4.access_key：调用即梦生成图片需要","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 319
+      height: 122
+      id: '1752211872470'
+      position:
+        x: 22.816818424149233
+        y: 128.79456133063445
+      positionAbsolute:
+        x: 22.816818424149233
+        y: 128.79456133063445
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 319
+    - data:
+        author: Dify
+        desc: ''
+        height: 123
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":1,"mode":"normal","style":"","text":"该流程实现的能力：","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":1,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"1.通过输入字幕文本信息，将字幕文本提取，撰写成图文结合的文章展示。文章友好SEO。","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"2.通过该流程实现批量的文本内容生成。","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1,"textFormat":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 379
+      height: 123
+      id: '1752211981139'
+      position:
+        x: 22.816818424149233
+        y: -32.69472147705085
+      positionAbsolute:
+        x: 22.816818424149233
+        y: -32.69472147705085
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 379
+    - data:
+        author: Dify
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"调用大模型进行文章改写","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1752212122878'
+      position:
+        x: 631.4751804926188
+        y: 145.1066100990876
+      positionAbsolute:
+        x: 631.4751804926188
+        y: 145.1066100990876
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: Dify
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"提取文章主题生成即梦提示词","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1752212149480'
+      position:
+        x: 949.3411884722835
+        y: 151.63142960646886
+      positionAbsolute:
+        x: 949.3411884722835
+        y: 151.63142960646886
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: Dify
+        desc: ''
+        height: 107
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"通过Python请求即梦接口生成图片","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"需要基于Dify的Python
+          原生库改写火山的即梦接口Python请求代码","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 276
+      height: 107
+      id: '1752212192562'
+      position:
+        x: 1260.982422259209
+        y: 145.1066100990876
+      positionAbsolute:
+        x: 1260.982422259209
+        y: 145.1066100990876
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 276
+    - data:
+        author: Dify
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"大模型理解生成的图片和文章，重新将文章和图片进行组合","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1752212215096'
+      position:
+        x: 1854
+        y: 151.63142960646886
+      positionAbsolute:
+        x: 1854
+        y: 151.63142960646886
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    - data:
+        author: Dify
+        desc: ''
+        height: 88
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"生成图文结合的文章","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 240
+      height: 88
+      id: '1752214240733'
+      position:
+        x: 2176.052987877692
+        y: 152.86583865437322
+      positionAbsolute:
+        x: 2176.052987877692
+        y: 152.86583865437322
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 240
+    viewport:
+      x: -540.9255516902181
+      y: 87.14461851239406
+      zoom: 0.7218597697534653

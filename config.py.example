@@ -1,0 +1,57 @@
+# config.py.example - 配置文件模板
+# 复制此文件为 config.py 并填入你的配置
+
+# Dify API 配置
+DIFY_API_URL = "YOUR_DIFY_WORKFLOW_API_URL"
+DIFY_API_KEY = "YOUR_DIFY_API_KEY"
+
+# 图片生成API配置 (支持即梦API或其他图片生成服务)
+IMAGE_API_ACCESS_KEY = "YOUR_IMAGE_API_ACCESS_KEY"
+IMAGE_API_SECRET_KEY = "YOUR_IMAGE_API_SECRET_KEY"
+
+# 应用配置
+APP_HOST = "0.0.0.0"
+APP_PORT = 5000
+DEBUG = False  # 生产环境设为 False
+
+# 支持的语言
+SUPPORTED_LANGUAGES = {
+    'en': 'English',
+    'zh-Hans': '中文(简体)',
+    'zh-Hant': '中文(繁体)',
+    'ja': '日本語',
+    'ko': '한국어',
+    'es': 'Español',
+    'fr': 'Français',
+    'de': 'Deutsch',
+    'ru': 'Русский',
+    'ar': 'العربية'
+}
+
+# 图片生成配置
+IMAGE_CONFIG = {
+    "width": 1024,
+    "height": 1024,
+    "quality": "high",
+    "style": "professional"
+}
+
+# API配置说明
+"""
+配置说明：
+
+1. Dify配置：
+   - DIFY_API_URL: 你的Dify工作流API地址
+   - DIFY_API_KEY: 你的Dify API密钥
+
+2. 图片生成API配置：
+   - 支持即梦API、DALL-E、Midjourney等
+   - IMAGE_API_ACCESS_KEY: API访问密钥
+   - IMAGE_API_SECRET_KEY: API密钥
+
+3. 环境变量方式（推荐生产环境）：
+   export DIFY_API_URL="your_api_url"
+   export DIFY_API_KEY="your_api_key"
+   export IMAGE_API_ACCESS_KEY="your_access_key"
+   export IMAGE_API_SECRET_KEY="your_secret_key"
+""" 

@@ -27,15 +27,15 @@
 ## 📱 界面展示
 
 ### 主界面
-![主界面](screenshots/main-interface.png)
+<img width="2864" height="1534" alt="image" src="https://github.com/user-attachments/assets/794e6715-4412-41c8-b796-bff7bfdf2cda" />
 *简洁的视频链接输入界面*
 
 ### 处理过程
-![处理过程](screenshots/processing.png)
+<img width="2880" height="1556" alt="image" src="https://github.com/user-attachments/assets/8a8ddaf3-634e-40cc-a3ed-c4123f8476f3" />
 *实时显示处理进度和状态*
 
 ### 生成结果展示
-![最终结果](screenshots/result.png)
+<img width="2880" height="1556" alt="image" src="https://github.com/user-attachments/assets/9bb9f81d-ae3f-4adc-8545-80b4ea514446" />
 *图文并茂的文章展示，支持预览、编辑和导出*
 
 ## 🚀 快速开始
@@ -44,7 +44,7 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/YOUR_USERNAME/youtube-video-to-article.git
+git clone https://github.com/Will-Huangr/youtube-video-to-article.git
 cd youtube-video-to-article
 
 # 安装依赖
